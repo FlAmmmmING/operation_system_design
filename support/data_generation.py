@@ -6,4 +6,4 @@ urls = [
 
 data = open("../data.txt", "w")
 for url in urls:
-    data.write(url + ",\n")
+    data.write(url + "\n")
