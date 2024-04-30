@@ -5,7 +5,7 @@ import requests
 import time
 from bs4 import BeautifulSoup
 import concurrent.futures
-
+import dividing
 
 class QueueIterator:
     def __init__(self, q):
@@ -29,11 +29,18 @@ def craw(url):
 
 
 # 这里是数据存储方法，解析需要的title
+# def parse(html):
+#     # class = "post-item-title"
+#     soup = BeautifulSoup(html, "html.parser")
+#     links = soup.find_all('a', class_="post-item-title")
+#     return [(link["href"], link.get_text()) for link in links]
 def parse(html):
     # class = "post-item-title"
     soup = BeautifulSoup(html, "html.parser")
-    links = soup.find_all('a', class_="post-item-title")
-    return [(link["href"], link.get_text()) for link in links]
+    # links = soup.find_all('a', class_="post-item-title")
+    links = soup.find('span', {'role': 'heading', 'aria-level': '2'})
+    # return [(link["href"], link.get_text()) for link in links]
+    return links.get_text()
 
 
 class Crawler:
@@ -125,12 +132,12 @@ class Crawler:
                 html = self.data_queue.get()
             if html is not None:
                 results = parse(html)
-                for result in results:
-                    with self.mutex3:
-                        with open("result.txt", "a", encoding="utf-8") as f:
-                            for item in result:
-                                f.write(str(item) + '\n')
-                    print(result)
+                # for result in results:
+                with self.mutex3:
+                    with open("result.txt", "a", encoding="utf-8") as f:
+                        # for item in result:
+                            f.write(str(results) + '\n')
+                    print(results)
                 print(threading.current_thread().name, f"results size ", len(results),
                       "data_queue size: ", self.data_queue.qsize())
 
@@ -161,11 +168,11 @@ class Crawler:
         while self.data_queue.qsize() > 0:
             html = self.data_queue.get()
             results = parse(html)
-            for result in results:
-                with open("result.txt", "a", encoding="utf-8") as f:
-                    for item in result:
-                        f.write(str(item) + '\n')
-                print(result)
+            # for result in results:
+            with open("result.txt", "a", encoding="utf-8") as f:
+                # for item in result:
+                f.write(str(results) + '\n')
+                print(results)
             # print(threading.current_thread().name, f"results size ", len(results),
             #       "data_queue size: ", self.data_queue.qsize())
 
@@ -178,14 +185,16 @@ class Crawler:
             print(url)
 
 
-def multi_thread_start(number, folder, n1, n2):
+def multi_thread_start(number, folder, n1, n2, dividing_number=10):
     """
         对分割的文本进行多线程
         :param number: 有多少分割文本
         :param folder: 文件夹
         :param n1: 爬虫线程
         :param n2: 解析线程
+        :param dividing_number: 文本分割大小
     """
+    dividing.dividing("url_data.txt", dividing_number)
     with concurrent.futures.ThreadPoolExecutor(max_workers=number * 1.2) as executor:
         for i in range(number):
             filename = f"{folder}/chunk_{i}.txt"
@@ -195,7 +204,9 @@ def multi_thread_start(number, folder, n1, n2):
 
 
 if __name__ == '__main__':
+    with open('result.txt', 'r+') as f:
+        f.truncate(0)
     start = time.time()
-    multi_thread_start(10, "divided_data", 10, 5)
+    multi_thread_start(10, "divided_data", 10, 10, 40)
     end = time.time()
     print(f"cost: {end - start}")

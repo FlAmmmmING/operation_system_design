@@ -40,4 +40,4 @@ def dividing(filename, num_threads):
 
 
 if __name__ == "__main__":
-    dividing('data.txt', 10)
+    dividing('url_data.txt', 10)
