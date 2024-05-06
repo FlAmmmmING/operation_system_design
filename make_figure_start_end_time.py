@@ -28,11 +28,11 @@ def figure():
         # 在每个线程的结束时间上标出具体时间（秒和毫秒）
         plt.text(end_time, thread_id, f'{end_time.strftime("%S.%f")[:-3]}s', ha='left', va='bottom')
 
-    plt.xlabel('Time')
-    plt.ylabel('Thread ID')
-    plt.title('Start and End Time of Each Thread')
+    plt.xlabel('时间')
+    plt.ylabel('线程号')
+    plt.title('每一个线程的开始时间和结束时间')
     # plt.legend()
-    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1))
+    plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
     plt.yticks(thread_ids)  # 设置 y 轴刻度为线程 ID
     plt.grid(True)
     plt.tight_layout()
@@ -41,7 +41,7 @@ def figure():
     plt.savefig('static/ret_img/thread_start_end_time_plot.jpg')
 
     # 显示图形
-    plt.show()
+    # plt.show()
 
 
 if __name__ == '__main__':

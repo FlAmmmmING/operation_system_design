@@ -30,7 +30,7 @@ def write_thread_times_to_csv(thread_times, save_name="thread_times.csv"):
             start_time_local = datetime.fromtimestamp(data['Start Time']).strftime('%H:%M:%S.%f')[:-3]
             end_time_local = datetime.fromtimestamp(data['End Time']).strftime('%H:%M:%S.%f')[:-3]
             duration = "{:.3f}".format(data['End Time'] - data['Start Time'])
-            writer.writerow({'Thread ID': "T"+filename, 'Start Time': start_time_local,
+            writer.writerow({'Thread ID': "T" + filename, 'Start Time': start_time_local,
                              'End Time': end_time_local, 'Duration': duration})
 
 
@@ -77,6 +77,7 @@ def parse(html):
 
 class Crawler:
     fail_time = 0
+    ret_text = []  # 返回的文本
 
     def __init__(self, number1, number2, txt):
         """
@@ -175,6 +176,7 @@ class Crawler:
                 results = parse(html)
                 # for result in results:
                 with self.mutex3:
+                    Crawler.ret_text.append(str(results))
                     with open("result_data.txt", "a", encoding="utf-8") as f:
                         # for item in result:
                         f.write(str(results) + '\n')
@@ -221,6 +223,7 @@ class Crawler:
                 print("爬取失败")
                 continue
             results = parse(html)
+            Crawler.ret_text.append(str(results))
             # for result in results:
             with open("result_data.txt", "a", encoding="utf-8") as f:
                 # for item in result:
@@ -255,7 +258,7 @@ def multi_thread_start(folder, n1, n2, number=10, dataset=100000000):
     # 用于存储每个 crawler.thread_start 的开始时间和结束时间
     thread_times = {}
 
-    dividing.dividing("data_url/data_cnblog_pro.txt", number, dataset)
+    dividing.dividing("data_url/temp_data.txt", number, dataset)
     with concurrent.futures.ThreadPoolExecutor(max_workers=int(number * 1.5)) as executor:
         for i in range(number):
             filename = f"{folder}/chunk_{i}.txt"
@@ -278,11 +281,14 @@ def multi_thread_start(folder, n1, n2, number=10, dataset=100000000):
     write_thread_times_to_csv(thread_times)
 
     ret = Crawler.fail_time
+    text = Crawler.ret_text
     Crawler.fail_time = 0
-    return ret
+    Crawler.ret_text = []
+    # 返回差错时间以及文本
+    return ret, text
 
 
-def multi_thread_setting(dataset, n1, n2, number):
+def multi_thread_setting(number, n1, n2, dataset=1000):
     """
 
     :param dataset: 数据集大小
@@ -296,10 +302,24 @@ def multi_thread_setting(dataset, n1, n2, number):
     for item in os.listdir("divided_data"):
         os.remove(os.path.join("divided_data", item))
     start = time.time()
-    fail_time = multi_thread_start("divided_data", n1, n2, number, dataset)
+    fail_time, text = multi_thread_start("divided_data", n1, n2, number, dataset)
     end = time.time()
     print(f"cost: {end - start:.2f}")
-    return round(end - start, 2), round(fail_time, 4)
+    return round(end - start, 2), round(fail_time, 4), text
+
+
+def multi_Spider(inputed_url, text_number, n1, n2):
+    with open("data_url/temp_data.txt", 'w') as f:
+        f.write(inputed_url)
+    # 打开文件并读取内容
+    with open("data_url/temp_data.txt", 'r', encoding='utf-8') as file:
+        lines = file.readlines()
+    # 去除空行并重写文件
+    with open("data_url/temp_data.txt", 'w', encoding='utf-8') as file:
+        non_empty_lines = [line.strip() for line in lines if line.strip()]
+        file.write('\n'.join(non_empty_lines))
+    time_consumption, fail_cnt, text = multi_thread_setting(text_number, n1, n2, len(non_empty_lines))
+    return text
 
 
 def data_1000_n1_10_n2_10_number(looptime):
@@ -319,7 +339,7 @@ def data_1000_n1_10_n2_10_number(looptime):
     cnt = 1
     while cnt <= looptime:
         for splits in split_reference:
-            time_consumption, fail_cnt = multi_thread_setting(dataset, n1, n2, splits)
+            time_consumption, fail_cnt, text = multi_thread_setting(dataset, n1, n2, splits)
             # with open(f"experiment_result/text_number/data_{dataset}_n1_{n1}_n2_{n2}_number/time_consumption.csv",
             #           'a') as f:
             #     if splits == 100:
