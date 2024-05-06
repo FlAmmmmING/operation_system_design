@@ -19,7 +19,7 @@ def split_text_multithreaded():
 
 def divide_text():
     data = []
-    with open("../data.txt", "r") as f:
+    with open("../data_url/data_cnblog.txt", "r") as f:
         data = f.read().split(",\n")
     f.close()
 

@@ -17,7 +17,7 @@
 #
 # def divide_text():
 #     # 这里的data存储的就是全部的文本内容
-#     with open("data.txt", "r") as f:
+#     with open("data_cnblog.txt", "r") as f:
 #         data = f.read().split(",\n")
 #     f.close()
 #     print(len(data))
@@ -65,7 +65,7 @@ class FileSplitter:
 
 
 def main():
-    filename = '../data.txt'  # 要分割的文件名
+    filename = '../data_url/data_cnblog.txt'  # 要分割的文件名
     num_threads = 10  # 线程数量
     splitter = FileSplitter(filename, num_threads)
     splitter.split_file()

@@ -3,17 +3,18 @@ import concurrent.futures
 
 
 class FileSplitter:
-    def __init__(self, filename, num_threads):
+    def __init__(self, filename, num_threads, dataset):
         self.filename = filename
         self.num_threads = num_threads
         self.lock = threading.Lock()
+        self.dataset = dataset
 
     def split_file(self):
         with open(self.filename, 'r') as f:
             content = f.read().split("\n")
             # print(content)
 
-        file_length = len(content)
+        file_length = min(self.dataset, len(content))
         chunk_size = file_length // self.num_threads
         chunks = [content[i:i + chunk_size] for i in range(0, file_length, chunk_size)]  # 分割内容
 
@@ -34,10 +35,10 @@ class FileSplitter:
 
 
 # 任务就是分割这个文本
-def dividing(filename, num_threads):
-    splitter = FileSplitter(filename, num_threads)
+def dividing(filename, num_threads, dataset):
+    splitter = FileSplitter(filename, num_threads, dataset)
     splitter.split_file()
 
 
-if __name__ == "__main__":
-    dividing('url_data.txt', 10)
+# if __name__ == "__main__":
+#     dividing('data_cnblog_pro.txt', 10)
