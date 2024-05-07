@@ -16,7 +16,7 @@ def figure():
     end_times = df["End Time"]
 
     # 绘制时间图
-    plt.figure(figsize=(15, 9))
+    plt.figure(figsize=(15, 20))
 
     # 绘制每个线程的开始时间和结束时间
     for thread_id, start_time, end_time in zip(thread_ids, start_times, end_times):
@@ -28,11 +28,11 @@ def figure():
         # 在每个线程的结束时间上标出具体时间（秒和毫秒）
         plt.text(end_time, thread_id, f'{end_time.strftime("%S.%f")[:-3]}s', ha='left', va='bottom')
 
-    plt.xlabel('时间')
-    plt.ylabel('线程号')
-    plt.title('每一个线程的开始时间和结束时间')
+    plt.xlabel('Time')
+    plt.ylabel('Thread ID')
+    plt.title('Start and End Time of Each Thread')
     # plt.legend()
-    plt.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+    # plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1))
     plt.yticks(thread_ids)  # 设置 y 轴刻度为线程 ID
     plt.grid(True)
     plt.tight_layout()

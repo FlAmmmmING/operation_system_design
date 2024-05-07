@@ -1,10 +1,4 @@
-https://www.cnblogs.com/jackieathome/p/18162458
-https://www.cnblogs.com/-867259206/p/18162266
+https://www.cnblogs.com/yucloud/p/18162832/Linux_kernel_driver_SPI
+https://www.cnblogs.com/kakarotto-chen/p/18163170
+https://www.cnblogs.com/python120/p/18162859
 https://www.cnblogs.com/CH13hh/p/18162356
-https://www.cnblogs.com/didispace/p/18162337
-https://www.cnblogs.com/halflife/p/18162222
-https://www.cnblogs.com/pythonista/p/18162163
-https://www.cnblogs.com/Iflyinsky/p/18162137
-https://www.cnblogs.com/yucloud/p/18157014/Linux_Kernel_I2C
-https://www.cnblogs.com/xuzeyu/p/18161896
-https://www.cnblogs.com/aqi00/p/18132702

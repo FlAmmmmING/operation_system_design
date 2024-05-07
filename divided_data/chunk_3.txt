@@ -1,10 +1,6 @@
-https://www.cnblogs.com/huaweiyun/p/18163003
-https://www.cnblogs.com/guoxiaoyu/p/18149525
-https://www.cnblogs.com/aaronlinv/p/18162050
+https://www.cnblogs.com/huaweiyun/p/18164996
+https://www.cnblogs.com/yunqishequ/p/18163905
+https://www.cnblogs.com/marsitman/p/18163209
 https://www.cnblogs.com/JavaBuild/p/18162934
-https://www.cnblogs.com/python120/p/18162859
-https://www.cnblogs.com/xueweihan/p/18162468
-https://www.cnblogs.com/xiao2shiqi/p/18162913
-https://www.cnblogs.com/Can-daydayup/p/18162360
-https://www.cnblogs.com/rottenorange-cn/p/18162735
-https://www.cnblogs.com/henjay724/p/18162722
+https://www.cnblogs.com/jackieathome/p/18162458
+https://www.cnblogs.com/yucloud/p/18157014/Linux_Kernel_I2C

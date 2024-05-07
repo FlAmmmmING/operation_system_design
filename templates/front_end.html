@@ -29,7 +29,7 @@
             position: relative;
             width: 50%;
             padding: 20px;
-            background-color: #ffffff;
+            background-color: #b7b7b7;
             height: 100%;
             overflow-y: auto; /* 添加垂直滚动条 */
         }
@@ -75,7 +75,7 @@
 
         #outputText {
             width: 100%;
-            height: 650px;
+            height: 625px;
             overflow-y: auto; /* 如果内容超出高度，显示滚动条 */
         }
 
@@ -116,19 +116,60 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+        /* 设置表格样式 */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: -5px;
+        }
+        /* 设置外部div的样式，添加滚动条 */
+        .table-container {
+            max-height: 400px; /* 设置最大高度 */
+            overflow-y: auto; /* 添加垂直滚动条 */
+        }
 
     </style>
 </head>
 <body>
 <div id="container">
     <div id="left" class="sidebar">
-        <h2>输入你的URL数据集</h2>
         <!--        <textarea id="inputText" placeholder="Enter your URL set..."></textarea>-->
         <!--        <button onclick="processInput()">Process</button>-->
         <!--        <h1>Submit URL</h1>-->
         <form method="POST">
             {{ form.hidden_tag() }}
-            {{ form.url(size=32) }}<br>
+            <h4>url数据集爬取范围（选择1~500）</h4>
+            &nbsp;From&nbsp;
+            {{ form.min_value }} &nbsp;To&nbsp;
+            {{ form.max_value }}<br><br>
+            <h2>博客园URL数据集（共500个）</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>URL</th>
+                        <th>Text Size (KB)</th>
+                    </tr>
+                    {% for row in csv_data %}
+                    <tr>
+                        <td>{{ row['ID'] }}</td>
+                        <td>{{ row['URL'] }}</td>
+                        <td>{{ row['Text Size (KB)'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <br>
+
             <h4>并发线程参数设置</h4>
             {{ form.text_number.label }} :
             {{ form.text_number }}<br><br>
@@ -140,8 +181,8 @@
         </form>
     </div>
     <div id="right" class="sidebar">
-        <h2>这里会显示你爬取的内容以及相应线程消耗的时间</h2>
-        <textarea id="outputText" readonly>{{ '\n'.join(text) }}</textarea> <!-- 放置输出内容 -->
+        <h2>本次多线程爬虫数据</h2>
+<!--        <textarea id="outputText" readonly></textarea> &lt;!&ndash; 放置输出内容 &ndash;&gt;-->
         <button id="showImage">显示线程数据</button>
         <div id="showing"></div>
     </div>
@@ -165,9 +206,10 @@
             img2.style.height = "auto"; // 设置图片高度自适应
 
             // 添加图片到显示容器中
-            showingDiv.innerHTML = '';
+            showingDiv.innerHTML = '<h2>程序总运行时间: {{ total_consumption }} 秒</h2>';
             showingDiv.appendChild(img1);
             showingDiv.appendChild(img2);
+            showingDiv.innerHTML += '<br><br><br><br>'
         });
     });
 </script>

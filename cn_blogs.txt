@@ -119,7 +119,7 @@ https://www.cnblogs.com/wlovet/p/18156099
 https://www.cnblogs.com/Can-daydayup/p/18156613
 https://www.cnblogs.com/bossma/p/18156741
 https://www.cnblogs.com/kagol/p/18156730
-https://www.cnblogs.com/chanshuyi/p/18156667/introduce_ai_assistant_fitten_code
+https://www.cnblogs.com/lori/p/18128023
 https://www.cnblogs.com/mazey/p/18156657
 https://www.cnblogs.com/yuzhijian/p/18156615
 https://www.cnblogs.com/jiangyun/p/18156574
@@ -191,8 +191,8 @@ https://www.cnblogs.com/FatTiger4399/p/18146367
 https://www.cnblogs.com/ITnoteforlsy/p/18148656
 https://www.cnblogs.com/isharetech/p/18150815
 https://www.cnblogs.com/mingupupu/p/18150708
-https://www.cnblogs.com/xiaoqi/p/18150639/golang-sparse-retrival
-https://www.cnblogs.com/guzb/p/18108245/difference-of-thread-pool-implementation
+https://www.cnblogs.com/fanshaoO/p/18128770
+https://www.cnblogs.com/feffery/p/18128958
 https://www.cnblogs.com/fkxxgis/p/18150594
 https://www.cnblogs.com/crossoverJie/p/18150585
 https://www.cnblogs.com/VincentLee/p/18150445
@@ -229,7 +229,7 @@ https://www.cnblogs.com/longronglang/p/18149398
 https://www.cnblogs.com/zhoulujun/p/18149299
 https://www.cnblogs.com/chaogex/p/18149254
 https://www.cnblogs.com/Iflyinsky/p/18149167
-https://www.cnblogs.com/tandk-blog/p/18149028/how-nextjs-app-simply-make-i18n
+https://www.cnblogs.com/fhey/p/18129258
 https://www.cnblogs.com/aqi00/p/18132687
 https://www.cnblogs.com/isharetech/p/18148736
 https://www.cnblogs.com/JavaBuild/p/18148726
@@ -256,7 +256,7 @@ https://www.cnblogs.com/yuzhijian/p/18140818
 https://www.cnblogs.com/isharetech/p/18147543
 https://www.cnblogs.com/kzx1019/p/18147497
 https://www.cnblogs.com/xachary/p/18147185
-https://www.cnblogs.com/kklldog/p/18147090/split-mvc-view-to-another-project
+https://www.cnblogs.com/vipwan/p/18129361
 https://www.cnblogs.com/deali/p/18147029
 https://www.cnblogs.com/xiaowange/p/18146721
 https://www.cnblogs.com/cnb-yuchen/p/18146625
@@ -487,7 +487,7 @@ https://www.cnblogs.com/ruipeng/p/18130083
 https://www.cnblogs.com/MeteorSeed/p/18130331
 https://www.cnblogs.com/xiezhr/p/18130394
 https://www.cnblogs.com/yywf/p/18130286
-https://www.cnblogs.com/jyzhao/p/18130241/chao-jian-dan-bi-xu-yao-zhang-wo-de-yun-wei-xiao-m
+https://www.cnblogs.com/isharetech/p/18129417
 https://www.cnblogs.com/henjay724/p/18111727
 https://www.cnblogs.com/shudaoshan/p/18130192
 https://www.cnblogs.com/cry0-0/p/18130189

@@ -1,10 +1,5 @@
 https://www.cnblogs.com/guoxiaoyu/p/18164602
-https://www.cnblogs.com/jzcn/p/18163898
-https://www.cnblogs.com/ruipeng/p/18163423
-https://www.cnblogs.com/huaweiyun/p/18164996
-https://www.cnblogs.com/yucloud/p/18162832/Linux_kernel_driver_SPI
-https://www.cnblogs.com/Can-daydayup/p/18164905
-https://www.cnblogs.com/JavaBuild/p/18164898
-https://www.cnblogs.com/evesama/p/18164775
-https://www.cnblogs.com/tcjiaan/p/18163320
-https://www.cnblogs.com/xiaowange/p/18164407
+https://www.cnblogs.com/charlieroro/p/18128412
+https://www.cnblogs.com/guoxiaoyu/p/18149525
+https://www.cnblogs.com/rottenorange-cn/p/18162735
+https://www.cnblogs.com/pythonista/p/18162163

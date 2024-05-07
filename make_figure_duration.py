@@ -8,26 +8,33 @@ def figure():
 
     # 提取需要绘制的数据
     thread_ids = df["Thread ID"]
-    durations = df["Duration"]
+    durations = df["Duration (s)"]
+
+    # 创建图形
+    plt.figure(figsize=(12, 8))
 
     # 绘制柱状图
-    plt.figure(figsize=(15, 9))
-    plt.bar(thread_ids, durations, color='skyblue')
-    plt.xlabel('线程号')
-    plt.ylabel('持续时间 (秒)')
-    plt.title('每一个线程的执行时间')
-    plt.xticks(rotation=45, ha='right')
-    plt.tight_layout()
-    bars = plt.bar(thread_ids, durations, color='skyblue')
+    colors = ['skyblue', 'lightgreen', 'lightcoral', 'lightsalmon', 'lightpink', 'lightyellow']  # 添加更多颜色
+    plt.bar(thread_ids, durations, color=colors, label='Duration')
+    plt.xlabel('Thread ID')
+    plt.ylabel('Duration (seconds)')
+    plt.title('Duration of Each Thread')
+    plt.xticks(rotation=45, ha='right')  # 旋转刻度标签
+
     # 在每个柱状图上添加具体时间标记
-    for bar, duration in zip(bars, durations):
-        plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), f'{duration:.2f}s',
-                 ha='center', va='bottom')
+    for idx, duration in enumerate(durations):
+        plt.text(idx, duration, f'{duration:.3f}s', ha='center')  # 调整标记位置
+
+    # 添加折线图
+    plt.plot(thread_ids, durations, marker='o', color='skyblue', linestyle='-', linewidth=2, markersize=8, label='Duration Line')
+
+    # 添加图例
+    # plt.legend()
+
     # 保存图形为文件
     plt.savefig('static/ret_img/data.jpg')
 
-    # 显示图形
-    # plt.show()
+    # 返回保存的文件路径
     return 'static/ret_img/data.jpg'
 
 

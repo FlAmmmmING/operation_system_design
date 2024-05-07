@@ -15,7 +15,7 @@ import csv
 from datetime import datetime
 
 
-def write_thread_times_to_csv(thread_times, save_name="thread_times.csv"):
+def write_thread_times_to_csv(thread_times, URL_Number, Size, save_name="thread_times.csv"):
     """
     将 thread_times 中的数据按照 Thread ID 的阿拉伯数字排序后写入 CSV 文件
     """
@@ -23,15 +23,17 @@ def write_thread_times_to_csv(thread_times, save_name="thread_times.csv"):
     sorted_thread_times = dict(sorted(thread_times.items(), key=lambda x: int(x[0])))
 
     with open(save_name, 'w', newline='') as csvfile:
-        fieldnames = ['Thread ID', 'Start Time', 'End Time', 'Duration']
+        fieldnames = ['Thread ID', 'Start Time', 'End Time', 'Duration (s)', 'URL Number', 'URL Total Size (KB)']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         for filename, data in sorted_thread_times.items():
             start_time_local = datetime.fromtimestamp(data['Start Time']).strftime('%H:%M:%S.%f')[:-3]
             end_time_local = datetime.fromtimestamp(data['End Time']).strftime('%H:%M:%S.%f')[:-3]
             duration = "{:.3f}".format(data['End Time'] - data['Start Time'])
+            idx = int(filename)
             writer.writerow({'Thread ID': "T" + filename, 'Start Time': start_time_local,
-                             'End Time': end_time_local, 'Duration': duration})
+                             'End Time': end_time_local, 'Duration (s)': duration,
+                             'URL Number': URL_Number[idx], 'URL Total Size (KB)': Size[idx]})
 
 
 class QueueIterator:
@@ -246,7 +248,7 @@ class Crawler:
             print(url)
 
 
-def multi_thread_start(folder, n1, n2, number=10, dataset=100000000):
+def multi_thread_start(folder, n1, n2, number=10, minimum=1, maximum=500):
     """
     对分割的文本进行多线程
     :param folder: 文件夹
@@ -254,11 +256,14 @@ def multi_thread_start(folder, n1, n2, number=10, dataset=100000000):
     :param n2: 解析线程
     :param number: 文本分割大小
     :param dataset: 数据大小
+    :param minimum: From
+    :param maximum: To
     """
-    # 用于存储每个 crawler.thread_start 的开始时间和结束时间
+    # 用于存储每个 crawler.thread_start 的开始时间和结束时间，任务量以及任务大小
     thread_times = {}
 
-    dividing.dividing("data_url/temp_data.txt", number, dataset)
+    # dividing.dividing("data_url/temp_data.txt", number, dataset)
+    URL_Number, Size = dividing.dividing_released(number, minimum, maximum)
     with concurrent.futures.ThreadPoolExecutor(max_workers=int(number * 1.5)) as executor:
         for i in range(number):
             filename = f"{folder}/chunk_{i}.txt"
@@ -278,7 +283,7 @@ def multi_thread_start(folder, n1, n2, number=10, dataset=100000000):
 
     print(thread_times)
     # 将数据写入 CSV 文件
-    write_thread_times_to_csv(thread_times)
+    write_thread_times_to_csv(thread_times, URL_Number, Size)
 
     ret = Crawler.fail_time
     text = Crawler.ret_text
@@ -305,7 +310,7 @@ def multi_thread_setting(number, n1, n2, dataset=1000):
     fail_time, text = multi_thread_start("divided_data", n1, n2, number, dataset)
     end = time.time()
     print(f"cost: {end - start:.2f}")
-    return round(end - start, 2), round(fail_time, 4), text
+    return round(end - start, 2), round(fail_time, 4), text, round(end - start, 4)
 
 
 def multi_Spider(inputed_url, text_number, n1, n2):
@@ -318,8 +323,8 @@ def multi_Spider(inputed_url, text_number, n1, n2):
     with open("data_url/temp_data.txt", 'w', encoding='utf-8') as file:
         non_empty_lines = [line.strip() for line in lines if line.strip()]
         file.write('\n'.join(non_empty_lines))
-    time_consumption, fail_cnt, text = multi_thread_setting(text_number, n1, n2, len(non_empty_lines))
-    return text
+    time_consumption, fail_cnt, text, total_time = multi_thread_setting(text_number, n1, n2, len(non_empty_lines))
+    return text, total_time
 
 
 def data_1000_n1_10_n2_10_number(looptime):
