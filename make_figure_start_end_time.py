@@ -20,13 +20,22 @@ def figure():
 
     # 绘制每个线程的开始时间和结束时间
     for thread_id, start_time, end_time in zip(thread_ids, start_times, end_times):
-        plt.plot([start_time, end_time], [thread_id, thread_id], marker='o', label=f'Thread {thread_id}', linewidth=10)  # 加粗线条
+        plt.plot([start_time, end_time], [thread_id, thread_id], marker='o', label=f'Thread {thread_id}', linewidth=60)  # 加粗线条
+        plt.text(start_time, thread_id, f'{start_time.strftime("%S.%f")[:-3]}s', ha='left', va='center', fontsize=20, weight='bold')
+        plt.text(end_time, thread_id, f'{end_time.strftime("%S.%f")[:-3]}s', ha='right', va='center', fontsize=20, weight='bold')
+    # 找到最小时间和最大时间
+    min_time = min(min(start_times), min(end_times))
+    max_time = max(max(start_times), max(end_times))
 
-        # 在每个线程的开始时间上标出具体时间（秒和毫秒）
-        plt.text(start_time, thread_id, f'{start_time.strftime("%S.%f")[:-3]}s', ha='right', va='bottom')
+    # 计算时间间隔
+    time_range = max_time - min_time
 
-        # 在每个线程的结束时间上标出具体时间（秒和毫秒）
-        plt.text(end_time, thread_id, f'{end_time.strftime("%S.%f")[:-3]}s', ha='left', va='bottom')
+    # 设置空隙大小为时间间隔的百分比
+    gap_percentage = 0.05  # 5% 的空隙
+    gap = time_range * gap_percentage
+
+    # 扩大范围
+    plt.xlim(min_time - gap, max_time + gap)
 
     plt.xlabel('Time')
     plt.ylabel('Thread ID')

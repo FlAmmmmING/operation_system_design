@@ -52,25 +52,26 @@ class FileSplitter:
                 if i > maximum:
                     break
 
-            # 分割数据——这里存放的是url
-            partitions = [[] for _ in range(self.num_threads)]
-            # 大小，这里存放的是每一个kb大小
-            Size = [0 for _ in range(self.num_threads)]
-            URL_Number = [0 for _ in range(self.num_threads)]
+        # 分割数据——这里存放的是url
+        partitions = [[] for _ in range(self.num_threads)]
+        # 大小，这里存放的是每一个kb大小
+        Size = [0 for _ in range(self.num_threads)]
+        # 每一个线程中包含的url数据数量
+        URL_Number = [0 for _ in range(self.num_threads)]
 
-            for row in data:
-                now_url = row["URL"]
-                now_size = row["Text Size (KB)"]
-                min_index = min(range(len(Size)), key=lambda i: (Size[i], i))
-                Size[min_index] += float(now_size)
-                URL_Number[min_index] += 1
-                partitions[min_index].append(now_url)
+        for row in data:
+            now_url = row["URL"]
+            now_size = row["Text Size (KB)"]
+            min_index = min(range(len(Size)), key=lambda i: (Size[i], i))
+            Size[min_index] += float(now_size)
+            URL_Number[min_index] += 1
+            partitions[min_index].append(now_url)
 
-            # 将分割后的数据写入txt文件并输出每个分割的URL数量和总KB值
-            for i, partition in enumerate(partitions):
-                with open(f'divided_data/chunk_{i}.txt', 'w', encoding='utf-8') as f:
-                    for url in partition:
-                        f.write(url + '\n')
+        # 将分割后的数据写入txt文件并输出每个分割的URL数量和总KB值
+        for i, partition in enumerate(partitions):
+            with open(f'divided_data/chunk_{i}.txt', 'w', encoding='utf-8') as f:
+                for url in partition:
+                    f.write(url + '\n')
         for idx in range(self.num_threads):
             Size[idx] = round(Size[idx], 3)
         return URL_Number, Size

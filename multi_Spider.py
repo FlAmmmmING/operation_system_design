@@ -261,6 +261,7 @@ def multi_thread_start(folder, n1, n2, number=10, minimum=1, maximum=500):
     """
     # 用于存储每个 crawler.thread_start 的开始时间和结束时间，任务量以及任务大小
     thread_times = {}
+    start = time.time()
 
     # dividing.dividing("data_url/temp_data.txt", number, dataset)
     URL_Number, Size = dividing.dividing_released(number, minimum, maximum)
@@ -284,13 +285,14 @@ def multi_thread_start(folder, n1, n2, number=10, minimum=1, maximum=500):
     print(thread_times)
     # 将数据写入 CSV 文件
     write_thread_times_to_csv(thread_times, URL_Number, Size)
+    end = time.time()
 
     ret = Crawler.fail_time
     text = Crawler.ret_text
     Crawler.fail_time = 0
     Crawler.ret_text = []
     # 返回差错时间以及文本
-    return ret, text
+    return text, round(end - start, 4)
 
 
 def multi_thread_setting(number, n1, n2, dataset=1000):
@@ -307,10 +309,10 @@ def multi_thread_setting(number, n1, n2, dataset=1000):
     for item in os.listdir("divided_data"):
         os.remove(os.path.join("divided_data", item))
     start = time.time()
-    fail_time, text = multi_thread_start("divided_data", n1, n2, number, dataset)
+    text, total_time = multi_thread_start("divided_data", n1, n2, number, dataset)
     end = time.time()
     print(f"cost: {end - start:.2f}")
-    return round(end - start, 2), round(fail_time, 4), text, round(end - start, 4)
+    return text, round(end - start, 4)
 
 
 def multi_Spider(inputed_url, text_number, n1, n2):
@@ -323,7 +325,7 @@ def multi_Spider(inputed_url, text_number, n1, n2):
     with open("data_url/temp_data.txt", 'w', encoding='utf-8') as file:
         non_empty_lines = [line.strip() for line in lines if line.strip()]
         file.write('\n'.join(non_empty_lines))
-    time_consumption, fail_cnt, text, total_time = multi_thread_setting(text_number, n1, n2, len(non_empty_lines))
+    text, total_time = multi_thread_setting(text_number, n1, n2, len(non_empty_lines))
     return text, total_time
 
 
@@ -344,7 +346,7 @@ def data_1000_n1_10_n2_10_number(looptime):
     cnt = 1
     while cnt <= looptime:
         for splits in split_reference:
-            time_consumption, fail_cnt, text = multi_thread_setting(dataset, n1, n2, splits)
+            text, time_consumption = multi_thread_setting(dataset, n1, n2, splits)
             # with open(f"experiment_result/text_number/data_{dataset}_n1_{n1}_n2_{n2}_number/time_consumption.csv",
             #           'a') as f:
             #     if splits == 100:
